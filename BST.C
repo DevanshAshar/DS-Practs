@@ -138,5 +138,5 @@ void main()
             break;
         default:printf("Invalid\n");
     }
-    }while(ch!=4);
+    }while(ch!=6);
 }
