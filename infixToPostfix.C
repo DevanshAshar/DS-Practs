@@ -1,99 +1,65 @@
-//Aman ka code zyada efficient hai , uske code ke liye yeh code mein se comments ko uncomment kardo :)
+#include<stdio.h>
+#include<ctype.h>
 
-#include <stdio.h>
-#include <stdbool.h>
-#include<string.h>
-int stack[1000];
-int top=-1;
+char s[100];
+int top =-1;
 
-void push(int value){
-    top++;
-    stack[top]=value;
+void push(char c)
+{
+    s[++top]=c;
 }
 
-int pop(){
-    if(top==-1){
-        printf("There is nothing to pop");
-    }
-    top--;
+char pop()
+{
+    if(top == -1)
+        return -1;
+    else
+        return s[top--];
 }
 
-bool isOperator(char ch){
-    if(ch=='+'||ch=='*'||ch=='-'||ch=='/'||ch=='^'){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-bool isOperand(char ch){
-    if((ch>='a'&&ch<='z') || (ch>='A'&&ch<='Z')){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-/*char associativity(char ch){
-    if(ch=='^'){
-        return 'R';
-    }else{
-        return 'L';
-    }
-}*/
-int precedence(char ch){
-    if(ch=='+'||ch=='-'){
+int prio(char c)
+{
+    if(c == '(')
+        return 0;
+    if(c == '+' || c == '-')
         return 1;
-    }else if(ch=='*'||ch=='/'){
+    if(c == '*' || c == '/')
         return 2;
-    }else{
-        return 3;
-    }
+    return 0;
 }
 
-void main(){
-    printf("Enter the infix expression ");
-    char data [100];
-    scanf("%s",&data);
-    char ch;
-
-    for(int i=0;i<strlen(data);i++){
-        ch = data[i];
-        if(isOperand(ch)){
-            printf("%c",ch);
-        }else if(isOperator(ch)&&(top==-1 || stack[top] == '(')){
-            push(ch);
-        }else if(ch=='('){
-            push(ch);
-        }else if(ch==')'){
-            while(stack[top]!='('){
-                printf("%c",stack[top]);
-                pop();
-            }
-            printf("%c",stack[top]);
-            pop();
-        }else if(isOperator(ch)){
-            if( precedence(stack[top]) > precedence(ch) ){
-                printf("%c",stack[top]);
-                pop();
-                i--;
-            }else if(precedence(stack[top])==precedence(ch) ){
-               /* if(associativity(ch)=='R'){
-                    push(ch);
-                }
-                else{*/
-                    printf("%c",stack[top]);
-                    pop();
-                    i--;
-                //}
-            }
-            else{
-                push(ch);
-            }
+int main()
+{
+    char exp[100];
+    char x;
+    printf("Enter the exp : ");
+    gets(exp);
+    // printf("%c",exp[2]);
+    int i=0;
+    while(exp[i]!='\0')
+    {
+        if(isalnum(exp[i]))
+            printf("%c ",exp[i]);
+        else if(exp[i] == '(')
+            push(exp[i]);
+        else if(exp[i]==')')
+        {
+            while((x = pop())!= '(')
+            {printf("%c ",x);}
         }
+        else 
+        {
+            while(prio(exp[i])<= prio(s[top]))
+                printf("%c ",pop());
+            push(exp[i]);
+        }
+        i++;
+
     }
-    for(int i=top;i>=0;i--){
-        printf("%c",stack[top]);
-        pop();
-    }
+    
+    while(top != -1)
+    {
+        printf("%c ",pop());
+    }return 0;
+    
 }
