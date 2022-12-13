@@ -52,7 +52,7 @@ void display(struct node*head)
         }
     }
 }
-void addnode(int c,int p)
+void addsubnode(int c,int p)
 {
     struct node *sum,*temp;
     sum=createnode();
@@ -71,7 +71,7 @@ void addnode(int c,int p)
 }
 void main()
 {
-    int n1,n2,c;
+    int n1,n2,c,ch;
     struct node *t1,*t2;
     printf("enter no. of elements in l1 ");
     scanf("%d",&n1);
@@ -81,35 +81,73 @@ void main()
     start2=createlist(n2,start2);
     t1=start1;
     t2=start2;
+    printf("Enter 1 for addition and 2 for subtraction ");
+    scanf("%d",&ch);
+    if(ch==1)
+    {
     while(t1!=NULL && t2!=NULL)
     {
         if(t1->power==t2->power)
         {
             c=t1->coeff+t2->coeff;
-            addnode(c,t1->power);
+            addsubnode(c,t1->power);
             t1=t1->next;
             t2=t2->next;
         }
         else if(t1->power>t2->power)
         {
-            addnode(t1->coeff,t1->power);
+            addsubnode(t1->coeff,t1->power);
             t1=t1->next;
         }
         else
         {
-            addnode(t2->coeff,t2->power);
+            addsubnode(t2->coeff,t2->power);
             t2=t2->next;
         }
     }
     while(t1!=NULL)
     {
-        addnode(t1->coeff,t1->power);
+        addsubnode(t1->coeff,t1->power);
         t1=t1->next;
     }
     while(t2!=NULL)
     {
-        addnode(t2->coeff,t2->power);
+        addsubnode(t2->coeff,t2->power);
         t2=t2->next;
+    }
+    }
+    else if(ch==2)
+    {
+        while(t1!=NULL && t2!=NULL)
+    {
+        if(t1->power==t2->power)
+        {
+            c=t1->coeff-t2->coeff;
+            addsubnode(c,t1->power);
+            t1=t1->next;
+            t2=t2->next;
+        }
+        else if(t1->power>t2->power)
+        {
+            addsubnode(t1->coeff,t1->power);
+            t1=t1->next;
+        }
+        else
+        {
+            addsubnode(-t2->coeff,t2->power);
+            t2=t2->next;
+        }
+    }
+    while(t1!=NULL)
+    {
+        addsubnode(t1->coeff,t1->power);
+        t1=t1->next;
+    }
+    while(t2!=NULL)
+    {
+        addsubnode(-t2->coeff,t2->power);
+        t2=t2->next;
+    }
     }
     display(start1);
     printf("\n");
