@@ -103,8 +103,10 @@ struct node *copy(struct node *temp)
         temp=temp->next;
         while(temp!=NULL)
         {
-            temp1->next=n=createnode();
+            n=createnode();
             n->data=temp->data;
+            temp1->next=n;
+            temp1=n;
             temp=temp->next;
         }
     }
